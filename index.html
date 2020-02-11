@@ -27,13 +27,13 @@
         <button type="button" class="btn btn-primary mr-3" @click="OnClickAllDone();">All done</button>
         <div class="form-group mb-0 flex-grow">
           <input type="text" class="form-control" placeholder="add todo here" @keyup.enter="OnEnterAddTodo();"
-            v-model="newTodoName">
+           v-model="newTodoName">
         </div>
       </div>
       <div class="card-body p-0">
         <ul class="list-group list-group-flush">
 
-          <li class="list-group-item d-flex flex-row align-items-center" v-for="(todo, index) in todoCollection">
+          <li class="list-group-item d-flex flex-row align-items-center" v-for="(todo, index) in filteredTodoCollection">
 
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" :id="'checkbox' + index" v-model="todo.completed">
@@ -48,8 +48,8 @@
 
             <!-- todo.name - edit -->
             <div class="form-group mb-0 flex-grow" v-show="todo.editing">
-              <input type="text" class="form-control" v-model="todo.name"
-              @keyup.enter="OnEnterTodoName(todo);">
+              <input type="text" class="form-control" v-model="editingTodoName"
+              @keyup.enter="OnEnterTodoName(todo);" @blur="OnCancelTodo(todo);" @keyup.esc="OnCancelTodo(todo);">
             </div>
           </li>
 
@@ -63,13 +63,16 @@
 
         <!-- filters -->
         <div>
-          <button type="button" class="btn btn-sm btn-secondary">All</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Active</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Completed</button>
+          <button type="button" class="btn btn-sm"
+            @click="SetFilter('all');" :class="GetFilterButtonClass('all')">All</button>
+          <button type="button" class="btn btn-sm"
+            @click="SetFilter('active');"  :class="GetFilterButtonClass('active')">Active</button>
+          <button type="button" class="btn btn-sm"
+            @click="SetFilter('completed');"  :class="GetFilterButtonClass('completed')">Completed</button>
         </div>
 
         <!-- remove completed -->
-        <button type="button" class="btn btn-sm btn-link">Remove completed</button>
+        <button type="button" class="btn btn-sm btn-link" @click="OnClickRemoveCompleted();">Remove completed</button>
       </div>
     </div>
 

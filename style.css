@@ -7,7 +7,7 @@ body div.container {
 
 .custom-control-label::before {
     background-color: transparent;
-    border: 2px solid red;
+    border: 2px solid #007bff;;
 }
 
 .line-through {

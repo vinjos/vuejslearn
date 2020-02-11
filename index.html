@@ -2,37 +2,81 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TodoApp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TodoApp</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 
 <body>
 
-    <div class="container">
+  <div class="container">
 
-        <header class="text-center">
-            <h1 class="display-3">Todoapp</h1>
-        </header>
+    <header class="text-center my-4">
+      <h1 class="display-3">Todoapp</h1>
+    </header>
 
-        <!-- bootstrap card  -->
-        <div class="card text-center">
-            <div class="card-header">
-              Featured
+    <!-- bootstrap card  -->
+    <div class="card" id="todoApp">
+
+      <div class="card-header d-flex flex-row">
+        <button type="button" class="btn btn-primary mr-3" @click="OnClickAllDone();">All done</button>
+        <div class="form-group mb-0 flex-grow">
+          <input type="text" class="form-control" placeholder="add todo here" @keyup.enter="OnEnterAddTodo();"
+            v-model="newTodoName">
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+
+          <li class="list-group-item d-flex flex-row align-items-center" v-for="(todo, index) in todoCollection">
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" :id="'checkbox' + index" v-model="todo.completed">
+              <label class="custom-control-label" :for="'checkbox' + index"></label>
             </div>
-            <div class="card-body">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+
+            <!-- todo.name view -->
+            <span :class="{
+              'line-through': todo.completed
+            }" v-show="!todo.editing"
+            @dblclick="OnDblClickTodoName(todo);">{{ todo.name }}</span>
+
+            <!-- todo.name - edit -->
+            <div class="form-group mb-0 flex-grow" v-show="todo.editing">
+              <input type="text" class="form-control" v-model="todo.name"
+              @keyup.enter="OnEnterTodoName(todo);">
             </div>
-            <div class="card-footer text-muted">
-              2 days ago
-            </div>
-          </div>
-    
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- card footer -->
+      <div class="card-footer text-muted d-flex flex-row justify-content-between">
+        <!-- counter -->
+        <span>{{counter}} {{counter > 1 ? 'items' : 'item'}}  left</span>
+
+        <!-- filters -->
+        <div>
+          <button type="button" class="btn btn-sm btn-secondary">All</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Active</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Completed</button>
+        </div>
+
+        <!-- remove completed -->
+        <button type="button" class="btn btn-sm btn-link">Remove completed</button>
+      </div>
     </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="script.js"></script>
 
 </body>
 

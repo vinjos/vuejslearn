@@ -1,0 +1,15 @@
+body div.container {
+    max-width: 35rem;
+}
+.flex-grow {
+    flex-grow: 1;
+}
+
+.custom-control-label::before {
+    background-color: transparent;
+    border: 2px solid red;
+}
+
+.line-through {
+    text-decoration: line-through;
+}
